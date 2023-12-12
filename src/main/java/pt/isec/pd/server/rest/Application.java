@@ -61,7 +61,7 @@ public class Application {
 		public SecurityFilterChain unauthenticatedFilterChain(HttpSecurity http) throws Exception {
 			return http
 					.csrf(csrf -> csrf.disable())
-					.securityMatcher("/hello", "/hello/**", "/swagger-ui/**", "/v3/**")
+					.securityMatcher("/register")
 					.authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
 					.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 					.build();
