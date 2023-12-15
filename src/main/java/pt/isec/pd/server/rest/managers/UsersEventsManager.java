@@ -5,7 +5,6 @@ import pt.isec.pd.server.rest.dataacess.UsersDataAccess;
 import pt.isec.pd.server.rest.dataacess.UsersEventsDataAccess;
 import pt.isec.pd.server.rest.models.Event;
 import pt.isec.pd.server.rest.models.User;
-import pt.isec.pd.server.rest.rmi.handler.DatabaseVersionChangeHandler;
 
 import java.sql.Connection;
 import java.util.List;
@@ -16,11 +15,11 @@ public class UsersEventsManager {
     private EventsDataAccess eventsDataAccess;
     private VersionsManager versionsManager;
 
-    public UsersEventsManager(Connection connection, DatabaseVersionChangeHandler changeHandler) {
+    public UsersEventsManager(Connection connection) {
         this.usersDataAccess = new UsersDataAccess(connection);
         this.usersEventsDataAccess = new UsersEventsDataAccess(connection);
         this.eventsDataAccess = new EventsDataAccess(connection);
-        this.versionsManager = new VersionsManager(connection, changeHandler);
+        this.versionsManager = new VersionsManager(connection);
     }
 
     public boolean deleteUserRegistration(String email, String eventName) {

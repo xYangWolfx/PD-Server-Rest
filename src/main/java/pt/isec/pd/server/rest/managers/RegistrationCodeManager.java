@@ -3,7 +3,6 @@ package pt.isec.pd.server.rest.managers;
 import pt.isec.pd.server.rest.dataacess.EventsDataAccess;
 import pt.isec.pd.server.rest.dataacess.RegistrationCodeDataAccess;
 import pt.isec.pd.server.rest.models.RegistrationCode;
-import pt.isec.pd.server.rest.rmi.handler.DatabaseVersionChangeHandler;
 
 import java.sql.Connection;
 import java.util.List;
@@ -13,10 +12,10 @@ public class RegistrationCodeManager {
     private EventsDataAccess eventsDataAccess;
     private VersionsManager versionsManager;
 
-    public RegistrationCodeManager(Connection connection, DatabaseVersionChangeHandler changeHandler) {
+    public RegistrationCodeManager(Connection connection) {
         this.registrationCodeDataAccess = new RegistrationCodeDataAccess(connection);
         this.eventsDataAccess = new EventsDataAccess(connection);
-        this.versionsManager = new VersionsManager(connection, changeHandler);
+        this.versionsManager = new VersionsManager(connection);
     }
 
     public void createRegistrationCode(RegistrationCode registrationCode) {

@@ -2,7 +2,6 @@ package pt.isec.pd.server.rest.managers;
 
 import pt.isec.pd.server.rest.dataacess.UsersDataAccess;
 import pt.isec.pd.server.rest.models.User;
-import pt.isec.pd.server.rest.rmi.handler.DatabaseVersionChangeHandler;
 
 import java.sql.Connection;
 import java.util.List;
@@ -11,9 +10,9 @@ public class UsersManager {
     private UsersDataAccess usersDataAccess;
     private VersionsManager versionsManager;
 
-    public UsersManager(Connection connection, DatabaseVersionChangeHandler changeHandler) {
+    public UsersManager(Connection connection) {
         this.usersDataAccess = new UsersDataAccess(connection);
-        this.versionsManager = new VersionsManager(connection, changeHandler);
+        this.versionsManager = new VersionsManager(connection);
     }
 
     public int getIdNumber() {

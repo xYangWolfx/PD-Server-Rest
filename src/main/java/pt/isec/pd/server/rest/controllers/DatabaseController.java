@@ -1,4 +1,6 @@
-package pt.isec.pd.server.rest.managers;
+package pt.isec.pd.server.rest.controllers;
+
+import pt.isec.pd.server.rest.managers.DatabaseManager;
 
 import java.io.File;
 import java.sql.Connection;
