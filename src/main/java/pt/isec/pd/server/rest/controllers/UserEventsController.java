@@ -12,14 +12,21 @@ import pt.isec.pd.server.rest.models.User;
 import pt.isec.pd.server.rest.utils.ClientConnection;
 import pt.isec.pd.server.rest.utils.DbConnections;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 public class UserEventsController {
     @GetMapping("/getEventsByUser")
     public ResponseEntity getRegisteredEventsFromUser(Authentication authentication,
-                                     @RequestParam String email) {
+                                                      @RequestParam(value = "email") String email,
+                                                      @RequestParam(value = "date", required = false) LocalDate startDate,
+                                                      @RequestParam(value = "name", required = false) String name,
+                                                      @RequestParam(value = "location", required = false) String location,
+                                                      @RequestParam(value = "startHour", required = false) String startHour,
+                                                      @RequestParam(value = "endHour", required = false) String endHour) {
         if (ClientConnection.isAdmin(authentication)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You do not have permission to access this resource.");
         }
@@ -31,6 +38,11 @@ public class UserEventsController {
         List<Event> eventList = usersEventsManager.getRegisteredEventsFromUser(email);
 
         if (!eventList.isEmpty()) {
+            // Apply filters if provided
+            if (startDate != null || name != null || location != null || startHour != null || endHour != null) {
+                eventList = filterEvents(eventList, startDate, name, location, startHour, endHour);
+            }
+
             return ResponseEntity.status(HttpStatus.OK).body(eventList);
         }
 
@@ -76,5 +88,23 @@ public class UserEventsController {
         }
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("An error ocurred while trying to register on event");
+    }
+
+    private List<Event> filterEvents(List<Event> events,
+                                     LocalDate startDate,
+                                     String name,
+                                     String location,
+                                     String startHour,
+                                     String endHour) {
+        // Implement logic to filter events based on the provided parameters
+        // You can use streams and predicates to filter the list
+
+        return events.stream()
+                .filter(event -> startDate == null || event.getDate().equals(startDate.toString()))
+                .filter(event -> name == null || event.getName().equals(name))
+                .filter(event -> location == null || event.getPlace().equals(location))
+                .filter(event -> startHour == null || event.getStartHour().equals(startHour))
+                .filter(event -> endHour == null || event.getEndHour().equals(endHour))
+                .collect(Collectors.toList());
     }
 }
