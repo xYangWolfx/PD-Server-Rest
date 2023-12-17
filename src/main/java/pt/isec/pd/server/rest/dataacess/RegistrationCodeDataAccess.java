@@ -17,7 +17,7 @@ public class RegistrationCodeDataAccess {
         this.connection = connection;
     }
 
-    public void createRegistrationCode(RegistrationCode registrationCode) {
+    public boolean createRegistrationCode(RegistrationCode registrationCode) {
         String insertSQL = "INSERT INTO RegistrationCode (event_id, code, duration, creation, active) VALUES (?, ?, ?, ?, ?)";
 
         try {
@@ -36,9 +36,11 @@ public class RegistrationCodeDataAccess {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        return true;
     }
 
-    public void deleteRegistrationCodeByEventId(int eventId) {
+    public boolean deleteRegistrationCodeByEventId(int eventId) {
         String updateSQL = "UPDATE RegistrationCode SET active = 0 WHERE event_id = ? AND active = 1";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateSQL)){
@@ -47,6 +49,8 @@ public class RegistrationCodeDataAccess {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
+        return true;
     }
 
     public RegistrationCode getRegistrationCodeByEventId(int eventId) {
