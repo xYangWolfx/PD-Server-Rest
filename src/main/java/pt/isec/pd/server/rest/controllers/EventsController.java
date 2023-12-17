@@ -66,6 +66,6 @@ public class EventsController {
             return ResponseEntity.status(HttpStatus.OK).body(eventList);
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error while trying to fetch the list of events");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(eventList);
     }
 }
