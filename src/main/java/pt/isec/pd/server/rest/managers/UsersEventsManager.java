@@ -24,12 +24,12 @@ public class UsersEventsManager {
         this.usersEventsDataAccess = new UsersEventsDataAccess(connection);
         this.eventsDataAccess = new EventsDataAccess(connection);
         this.versionsManager = new VersionsManager(connection);
+        this.registrationCodeManager = new RegistrationCodeManager(connection);
     }
 
     public boolean deleteUserRegistration(String email, String eventName) {
         int userId = usersDataAccess.getUserIdByEmail(email);
         int eventId = eventsDataAccess.getEventIdByName(eventName);
-
         usersEventsDataAccess.deleteUserRegistration(userId, eventId);
         return versionsManager.updateDatabaseVersion();
     }
@@ -54,8 +54,8 @@ public class UsersEventsManager {
             Event event = eventsDataAccess.findEventById(idEvent);
             LocalDateTime currentDateTime = LocalDateTime.now();
 
-            LocalDateTime eventStartDateTime = LocalDateTime.parse(event.getDate() + " " + event.getStartHour(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            LocalDateTime eventEndDateTime = LocalDateTime.parse(event.getDate() + " " + event.getEndHour(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            LocalDateTime eventStartDateTime = LocalDateTime.parse(event.getDate() + " " + event.getStartHour(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            LocalDateTime eventEndDateTime = LocalDateTime.parse(event.getDate() + " " + event.getEndHour(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
             //Se a hora atual esta entre os eventos
             if(currentDateTime.isAfter(eventStartDateTime) && currentDateTime.isBefore(eventEndDateTime)){
